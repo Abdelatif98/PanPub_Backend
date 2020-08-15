@@ -118,5 +118,18 @@ public class LocationRest {
 	      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	    }
 	  }
+	@PostMapping("/new/Location")
+	public void save(@RequestBody Location entity) {
+		 repository.save(entity);
+	}
+	@PutMapping("update/Location")
+	public int updateLocation(@RequestBody Location entity) {
+		System.out.println(entity.getPanneau().getId());
+		Optional<Location> Location = repository.findByPanneauId(entity.getPanneau().getId());
+		Optional<Entreprise> entreprise = repositoryentreprise.findById(entity.getEntreprise().getId());
+		Location.get().setEntreprise(entreprise.get());
+		repository.save(Location.get());
+		return 0;
+	}
 	
 }
